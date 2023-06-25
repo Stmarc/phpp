@@ -37,29 +37,18 @@ if(!isset($_SESSION['login']))
 
 <button type="submit" >Zatwierdź</button>
 <?php
+require ('ClassReader.php');
+
+
+
+
 if(isset($_POST['CardNumber']))
 {
-    require('connection.php');
-    $CardNumber = $_POST['CardNumber'];
-    $SqlInformationReader = 'SELECT imie,Nazwisko,books.Tytul, wypozyczenia.Data_wypozyczenia FROM `reader` Inner JOIN wypozyczenia ON reader.id = wypozyczenia.id_czytelnika INNER JOIN books ON books.id = wypozyczenia.id_ksiazki where reader.Numer_Karty='."'".$CardNumber."' and Data_zwrotu is Null";
-    $ResultInformationReader = $conn->query($SqlInformationReader);
-    if($ResultInformationReader->num_rows>0)
-    {
-        while($row = $ResultInformationReader->fetch_assoc())
-        {
-            echo '<br>Tytul '. $row['Tytul'].'<br>';
-            echo 'Data_wypozyczenia '. $row['Data_wypozyczenia'].'<br>';
-
-
-        }
-
-    }
-
-    else{echo  'Czytelnik aktualnie nic nie wypożycza';}
+    $Reader = new Reader('','',$_POST['CardNumber']);
+    $Reader->GetInformation();
+ 
 
 }
-
-
 ?>
 </body>
 </html>

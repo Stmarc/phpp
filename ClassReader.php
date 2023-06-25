@@ -100,6 +100,56 @@ echo "Nie ma takiej książki";
 return $ReaderId;
 }
 
+public function GetInformation()
+{
+    require('connection.php');
+    
+    
+    // Zapytanie SELECT
+    
+    $sql = 'Select reader.Imie, reader.Nazwisko, wypozyczenia.Data_wypozyczenia,books.Tytul from reader INNER JOIN wypozyczenia ON wypozyczenia.id_czytelnika = reader.id INNER JOIN books on  wypozyczenia.id_ksiazki = books.id where wypozyczenia.Data_zwrotu is null and  Numer_karty ='.$this->CardNumber;
+
+    // Wykonanie zapytania i pobranie wyników
+$result = $conn->query($sql);
+// Sprawdzenie czy zapytanie zwróciło wyniki
+if ($result->num_rows >0 ) {
+
+$InformationAboutReader=[];
+while($row = $result->fetch_assoc()) {
+   $InformationAboutReader[]='Imie: '.$row['Imie'];
+   $InformationAboutReader[]='Nazwisko: '.$row['Nazwisko'];
+   $InformationAboutReader[]='Data_wypozyczenia: '.$row['Data_wypozyczenia'];
+   $InformationAboutReader[]='Tytul: '.$row['Tytul'];
+
+
+}
+
+} else {
+    $sql = 'Select reader.Imie, reader.Nazwisko from reader where  Numer_karty ='.$this->CardNumber;
+    $result = $conn->query($sql);
+    if ($result->num_rows >0 )
+     {
+
+        $InformationAboutReader=[];
+        while($row = $result->fetch_assoc())
+         {
+           $InformationAboutReader[]='Imie: '.$row['Imie'];
+           $InformationAboutReader[]='Nazwisko: '.$row['Nazwisko'];
+           $InformationAboutReader[]='Brak wypożycznoych książek';
+        }
+
+}
+}
+foreach($InformationAboutReader as $row)
+{
+    echo("<br>".$row . "<br>");
+
+}
+return @$InformationAboutReader[0];
+
+
+}
+
 }
 
 
