@@ -1,0 +1,25 @@
+label{
+    display: block;
+    text-align: center;
+
+}
+input{
+    display: block;
+}
+.button{
+    text-align: center;
+}
+.header_login{
+    position: absolute;
+
+
+
+}
+
+
+.main_login {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
