@@ -23,7 +23,7 @@ require('ClassBook.php');
 @$count = $_POST['count'];
 if(isset($login))
 {
-$Book = new Book($login,$Author,$ISBN,$count);
+$Book = new Book($login,$Author,$count,$ISBN);
 $Book->addBook();
 }
 
@@ -42,16 +42,16 @@ $Book->addBook();
     <form method="post" action = 'AddBook.php' onsubmit="return checkPassword()">
 
         <label for="Title">Tytuł:</label>
-        <input type="text" id="Title" name="Title">
+        <input type="text" id="Title" name="Title" required >
         
         <label for="Author">Autor:</label>
-        <input type="text" id="Author" name="Author">
+        <input type="text" id="Author" name="Author" required >
         
         <label for="ISBN">ISBN:</label>
-        <input type="number" id="ISBN" name="ISBN">
+        <input type="number" id="ISBN" name="ISBN" required >
 
         <label for="count">Ilość:</label>
-        <input type="number" id="count" name="count">
+        <input type="number" id="count" name="count" required >
 
 
         

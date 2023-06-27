@@ -66,8 +66,10 @@ if ($conn->query($sql) === TRUE) {
     echo "Błąd podczas dodawania rekordu: " . $conn->error;
 }
 
+
 // Zamykanie połączenia
 $conn->close();
+return ($card_number);
 }
 
 
@@ -104,52 +106,90 @@ public function GetInformation()
 {
     require('connection.php');
     
-    
-    // Zapytanie SELECT
-    
-    $sql = 'Select reader.Imie, reader.Nazwisko, wypozyczenia.Data_wypozyczenia,books.Tytul from reader INNER JOIN wypozyczenia ON wypozyczenia.id_czytelnika = reader.id INNER JOIN books on  wypozyczenia.id_ksiazki = books.id where wypozyczenia.Data_zwrotu is null and  Numer_karty ='.$this->CardNumber;
-
-    // Wykonanie zapytania i pobranie wyników
-$result = $conn->query($sql);
-// Sprawdzenie czy zapytanie zwróciło wyniki
-if ($result->num_rows >0 ) {
-
-$InformationAboutReader=[];
-while($row = $result->fetch_assoc()) {
-   $InformationAboutReader[]='Imie: '.$row['Imie'];
-   $InformationAboutReader[]='Nazwisko: '.$row['Nazwisko'];
-   $InformationAboutReader[]='Data_wypozyczenia: '.$row['Data_wypozyczenia'];
-   $InformationAboutReader[]='Tytul: '.$row['Tytul'];
-
-
-}
-
-} else {
-    $sql = 'Select reader.Imie, reader.Nazwisko from reader where  Numer_karty ='.$this->CardNumber;
-    $result = $conn->query($sql);
-    if ($result->num_rows >0 )
-     {
-
-        $InformationAboutReader=[];
-        while($row = $result->fetch_assoc())
-         {
-           $InformationAboutReader[]='Imie: '.$row['Imie'];
-           $InformationAboutReader[]='Nazwisko: '.$row['Nazwisko'];
-           $InformationAboutReader[]='Brak wypożycznoych książek';
-        }
-
-}
-}
-foreach($InformationAboutReader as $row)
+if($this->LastName != "" and $this->FristName != "")
 {
-    echo("<br>".$row . "<br>");
+    $sql = 'SELECT reader.Imie,reader.Nazwisko,books.Tytul,wypozyczenia.Data_wypozyczenia FROM `reader` INNER JOIN wypozyczenia ON reader.id = wypozyczenia.id_czytelnika INNER JOIN books ON books.id = wypozyczenia.id_ksiazki where  reader.Imie ='."'".$this->FristName."'" .' and reader.Nazwisko ='."'".$this->LastName."'";
+
+
+    $InformationAboutReader = $conn->query($sql);
+    
+    if($InformationAboutReader->num_rows>0)
+    {
+        while($row = $InformationAboutReader->fetch_assoc())
+        {
+            echo "<br>";
+            echo("Imie ". $row["Imie"] ."<br>");
+            echo("Nazwisko ".$row["Nazwisko"]."<br>");
+            echo("Tytuł ".$row["Tytul"]."<br>");
+            echo("Data_wypozyczenia ".$row["Data_wypozyczenia"]."<br>");
+        }
+    }
+    
+    else{
+        $sql = 'SELECT reader.Imie,reader.Nazwisko FROM `reader` WHERE  reader.Imie ='."'".$this->FristName."'" .' and reader.Nazwisko ='."'".$this->LastName."'";
+       
+        $InformationAboutReader = $conn->query($sql);
+        
+        if($InformationAboutReader->num_rows>0)
+        {
+            while($row = $InformationAboutReader->fetch_assoc())
+            {
+                echo "<br>";
+                echo("Imie ". $row["Imie"] ."<br>");
+                echo("Nazwisko ".$row["Nazwisko"]."<br>");
+                echo("Brak wypożyczonyc książek");
+            
+            }
+        
+    }
+}
+}
+else{
+
+    $sql = 'SELECT reader.Imie,reader.Nazwisko,books.Tytul,wypozyczenia.Data_wypozyczenia FROM `reader` INNER JOIN wypozyczenia ON reader.id = wypozyczenia.id_czytelnika INNER JOIN books ON books.id = wypozyczenia.id_ksiazki where reader.Numer_Karty ='."'".$this->CardNumber."'" ;
+   
+
+    $InformationAboutReader = $conn->query($sql);
+    
+    if($InformationAboutReader->num_rows>0)
+    {
+        while($row = $InformationAboutReader->fetch_assoc())
+        {
+            echo "<br>";
+            echo("Imie ". $row["Imie"] ."<br>");
+            echo("Nazwisko ".$row["Nazwisko"]."<br>");
+            echo("Tytuł ".$row["Tytul"]."<br>");
+            echo("Data_wypozyczenia ".$row["Data_wypozyczenia"]."<br>");
+        }
+    }
+    
+    else{
+        $sql = 'SELECT reader.Imie,reader.Nazwisko FROM `reader` WHERE reader.Numer_Karty ='."'".$this->CardNumber."'" ;
+        $InformationAboutReader = $conn->query($sql);
+
+        if($InformationAboutReader->num_rows>0)
+        {
+            while($row = $InformationAboutReader->fetch_assoc())
+            {
+                echo "<br>";
+                echo("Imie ". $row["Imie"] ."<br>");
+                echo("Nazwisko ".$row["Nazwisko"]."<br>");
+                echo("Brak wypożyczonyc książek");
+            
+            }
+        
+    }
+}
+
+
 
 }
-return @$InformationAboutReader[0];
+
+
+
 
 
 }
-
 }
 
 

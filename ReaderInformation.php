@@ -28,7 +28,13 @@ if(!isset($_SESSION['login']))
 
 
 <label for="CardNumber">Numer karty:</label>
-<input type="text" id="CardNumber" name="CardNumber">
+<input type="text" id="CardNumber" name="CardNumber" >
+
+<label for="FirstName">First Name:</label>
+<input type="text" id="FirstName" name="FirstName" placeholder="test">
+
+<label for="LastName">Last Name:</label>
+<input type="text" id="LastName" name="LastName" placeholder="test" >
 
 
 
@@ -44,7 +50,7 @@ require ('ClassReader.php');
 
 if(isset($_POST['CardNumber']))
 {
-    $Reader = new Reader('','',$_POST['CardNumber']);
+    $Reader = new Reader($_POST['FirstName'],$_POST['LastName'],$_POST['CardNumber']);
     $Reader->GetInformation();
  
 

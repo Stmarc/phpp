@@ -10,25 +10,7 @@ if(!isset($_SESSION['login']))
 }
 
 ?>
-<?php
 
-require('ClassReader.php');
-
-@$FirstName = $_POST['FirstName'];
-@$LastName = $_POST['LastName'];
-
-if(isset($FirstName))
-{
-$Reader = new Reader($FirstName,$LastName);
-$Reader->addReader();
-}
-
-
-
-
-
-
-?>
 
 
 
@@ -44,15 +26,33 @@ $Reader->addReader();
 <form method="post" action = '' >
 
 <label for="FirstName">Imie:</label>
-<input type="text" id="FirstName" name="FirstName">
+<input type="text" id="FirstName" name="FirstName" required >
 
 <label for="LastName">Nazwisko:</label>
-<input type="password" id="LastName" name="LastName">
+<input type="password" id="LastName" name="LastName" required >
 
 
 
 <button type="submit" >Zatwierdź</button>
+<?php
 
+require('ClassReader.php');
+
+@$FirstName = $_POST['FirstName'];
+@$LastName = $_POST['LastName'];
+
+if(isset($FirstName))
+{
+$Reader = new Reader($FirstName,$LastName);
+echo('Numer Karty tego Czytelnika to:' .$Reader->addReader());
+}
+
+
+
+
+
+
+?>
 
 </form>
 </body>

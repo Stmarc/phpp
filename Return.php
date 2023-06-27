@@ -46,10 +46,10 @@ $Loan->returnBook();
 <form method="post" action = ''>
 
 <label for="Title">Tytul:</label>
-<input type="text" id="Title" name="Title">
+<input type="text" id="Title" name="Title" required >
 
 <label for="CardNumber">Numer karty:</label>
-<input type="text" id="CardNumber" name="CardNumber">
+<input type="text" id="CardNumber" name="CardNumber" required >
 
 
 

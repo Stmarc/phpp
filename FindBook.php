@@ -25,7 +25,7 @@ if(!isset($_SESSION['login']))
 <form method="post" action = '' >
 
 <label for="Title">Tytuł:</label>
-<input type="text" id="Title" name="Title">
+<input type="text" id="Title" name="Title" required >
 
 
 
